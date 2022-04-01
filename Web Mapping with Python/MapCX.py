@@ -22,7 +22,7 @@ folium.TileLayer('cartodbpositron').add_to(map)
 # Add a FeatureGroup to the map
 fgc = folium.FeatureGroup(name="COVID_19")
 
-# Interating through the list, using the zip function
+# Iterating through the list, using the zip function
 for citycounty, tc, td, ac in zip(citycounty, tc, td, ac):
      location = locator.geocode(citycounty)
      address = location.address
