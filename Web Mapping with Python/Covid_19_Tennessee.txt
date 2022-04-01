@@ -1,0 +1,36 @@
+CITY COUNTY,ACTIVE CASES,NEW DEATHS,TOTAL DEATHS,TOTAL CASES
+Lauderdale-Tennessee,14,0,79,5343
+Wayne-Tennessee,13,0,47,4240
+Chester-Tennessee,13,0,81,3733
+Bledsoe-Tennessee,13,0,37,3632
+crockett-Tennessee,12,1,75,3471
+Jackson-Tennessee,12,0,48,2199
+Stewart-Tennessee,11,0,43,2303
+Polk-Tennessee,9,0,50,3351
+Cannon-Tennessee,9,0,50,2951
+Decatur-Tennessee,9,0,49,2544
+Van Buren-Tennessee,9,3,43,1355
+Unicoi-Tennessee,8,1,79,3383
+Moore-Tennessee,8,0,30,1504
+Trousdale-Tennessee,7,0,36,3309
+Grundy-Tennessee,7,0,64,3012
+Humphreys-Tennessee,6,1,59,3467
+Perry-Tennessee,6,0,41,1686
+Meigs-Tennessee,5,2,45,2333
+Pickett-Tennessee,4,0,28,1154
+Lewis-Tennessee,2,0,48,2603
+Lake-Tennessee,2,0,34,2050
+Houston-Tennessee,2,0,51,1986
+Clay-Tennessee,2,0,39,1629
+Hancock-Tennessee,2,0,24,1377
+Davidson-Tennessee,0,14,1369,140061
+Shelby-Tennessee,3389,26,2686,159425
+Hamilton-Tennessee,725,11,892,68617
+Rutherford-Tennessee,697,10,716,66839
+Williamson-Tennessee,645,4,319,43361
+Knox-Tennessee,543,12,1061,84190
+Sumner-Tennessee,404,1,578,37052
+Montgomery-Tennessee,360,7,462,35194
+Wilson-Tennessee,327,3,402,29190
+Sullivan-Tennessee,212,2,527,30525
+Tipton-Tennessee,176,2,179,12314
