@@ -1,0 +1,167 @@
+
+
+--Select *
+--From [PortfolioProject].[dbo].[ProductInfomation]
+
+
+--Average Sales of Products
+Select  ProductID, ProductName, Category, SubCategory, State,AVG(Sales) As AverageSales
+From [PortfolioProject].[dbo].[ProductInfomation]
+Group By ProductID, ProductName, Category, SubCategory, State
+Order By State ASC;
+
+
+--Maximum Sales and Profit of Products
+Select ProductID, ProductName, Category, SubCategory, State, Max(Sales) As Maximum_Sales,
+Max(Profit) as MaximumProfit
+From [PortfolioProject].[dbo].[ProductInfomation]
+Group By ProductID, ProductName, Category, SubCategory, State
+Order By State ASC;
+
+
+--Total Sales and Profit from all the States
+Select  State, Sum(Sales) as State_Total_Sales, Sum(Profit) as State_Total_Profit
+From [PortfolioProject].[dbo].[ProductInfomation] 
+Group By State
+Order By State ASC
+ 
+
+-- Using the RANK FUNCTION
+--Rank Data based on Sales
+Select ProductID, ProductName, Category, SubCategory, State, Sales, Rank
+From (Select e.*, Rank() Over(Partition By State Order By Sales Desc) As Rank
+	 From [PortfolioProject].[dbo].[ProductInfomation] e) x
+
+
+-- Checking the difference between RANK, DENSE_RANK and ROW_NUMBER Window Functions:
+Select ProductID, ProductName, Category, SubCategory, State, Sales,
+Rank() over(partition by Category order by Sales desc) as Rank,
+Dense_Rank() over(partition by Category  order by sales desc) as Dense_Rank,
+Row_Number() over(partition by Category order by sales desc) as Row_Number
+From [PortfolioProject].[dbo].[ProductInfomation] 
+
+
+--Using the LEAD AND LAG FUNCTION to access Data from Subsequent and Previous Rows
+
+Select ProductID, ProductName, Category, SubCategory, State, Sales, Lead
+From (Select e.*, Lead(Sales) Over(Partition By State Order By State Desc) As Lead
+	 From [PortfolioProject].[dbo].[ProductInfomation] e) x
+
+Select ProductID, ProductName, Category, SubCategory, State, Sales, Lag
+From (Select e.*, Lag(Sales) Over(Partition By State Order By State Desc) As Lag
+	 From [PortfolioProject].[dbo].[ProductInfomation] e) x
+
+
+-- Using the CASE STATEMENT to know when the Sales of a Product is Higher, Lower, or Equal to the Previous Product Sales
+Select ProductID, ProductName, Category, SubCategory, State, Sales,
+Lag(Sales) Over(Partition by Category order By Sales) as Previous_Product_Sales,
+Case when Sales > Lag(Sales) over(Partition By State Order By Sales) Then 'Higher than Previous_Product_Sales'
+     when Sales < Lag(Sales) over(Partition By State Order By Sales) Then 'Lower than Previous_Product_Sales'
+	 when Sales = Lag(Sales) over(Partition By State Order By Sales) Then 'Same as Previous_Product_Sales'
+End As Sales_Range
+From [PortfolioProject].[dbo].[ProductInfomation] 
+
+
+--NESTED QUERIES
+--Finding the Products whose Sales where better than the average Sales
+
+--1. Firstly, we find the Total Sales for each Product
+Select  ProductName, Sum(Sales) As Total_Sales
+From [PortfolioProject].[dbo].[ProductInfomation]
+Group By ProductName
+
+--2. We then find the Average Sales for all the Product using a SUBQUERY
+Select Avg(Total_Sales) As Average_Sales
+From(Select  ProductName, Sum(Sales) As Total_Sales
+From [PortfolioProject].[dbo].[ProductInfomation]
+Group By ProductName) x
+
+--3. We finally comapare 1 and 2 above using SUBQUERIES and INNER JOIN to find 
+--the Products whose Sales where better than the average Sales
+Select*
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) Sales
+Inner Join(Select Avg(Total_Sales) As Average_Sales
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) x) AvgSales
+On Sales.Total_Sales > AvgSales.Average_Sales
+
+
+--COMMON TABLE EXPRESSION(CTE)/WITH CLAUSE
+--We can Modify the Query above by using a WITH CLAUSE.
+--The With Clause helps to improve the perfomance of the Query and makes it more readable.
+
+With ProductSales As
+	 (Select  ProductName, Sum(Sales) As Total_Sales
+	 From [PortfolioProject].[dbo].[ProductInfomation]
+	 Group By ProductName)
+Select *
+From ProductSales
+Inner Join(Select Avg(Total_Sales) As Average_Sales
+		  From ProductSales x) AvgSales
+On ProductSales.Total_Sales > AvgSales.Average_Sales
+
+
+--TEMPORARY TABLE(Temp Table)
+--Temporary Tables are a great feature that lets us store and process intermediate results by
+--using the same selection, update, and join capabilities that you can use with typical SQL Server Tables.
+
+DROP Table if exists #Temp_Product
+Create Table #Temp_Product
+(
+ProductName nvarchar(255),
+Total_Sales numeric,
+Average_Sales numeric
+)
+Select *
+From #Temp_Product
+
+Insert Into #Temp_Product
+Select*
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) Sales
+Inner Join(Select Avg(Total_Sales) As Average_Sales
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) x) AvgSales
+On Sales.Total_Sales > AvgSales.Average_Sales
+
+Select *
+From #Temp_Product
+
+
+--Creating View to Store Data for later Visualizations.
+--View allows you to create a virtual table based on an SQL query referring to 
+--other tables in the database.
+
+Create View ProductSales as
+Select*
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) Sales
+Inner Join(Select Avg(Total_Sales) As Average_Sales
+From(Select  ProductName, Sum(Sales) As Total_Sales
+	From [PortfolioProject].[dbo].[ProductInfomation]
+	Group By ProductName) x) AvgSales
+On Sales.Total_Sales > AvgSales.Average_Sales
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
