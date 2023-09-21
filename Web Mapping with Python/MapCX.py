@@ -58,5 +58,5 @@ map.add_child(fgc)
 map.add_child(folium.LayerControl())
 map.save("MapCX.html")
 
-(Below is the link to the Web Map)
+# (BELOW IS THE LINK TO THE WEB MAP)
 file:///C:/Users/chrix/OneDrive/Desktop/DATA%20ANALYTICS/Completed%20Projects/Web%20Mapping%20with%20Python/MapCX.html
