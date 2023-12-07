@@ -14,9 +14,8 @@ ac = list(data["ACTIVE CASES"])
 citycounty = list(data["CITY COUNTY"])
 locator = ArcGIS()
 
-# Create a map using Stamen Terrain, centered on study area with set zoom level
-map = folium.Map(location=[35.72, -82.60], zoom_start=6, tiles="StamenTerrain")
-folium.TileLayer('openstreetmap').add_to(map)
+# Create a map using openstreetmap, centered on study area with set zoom level
+map = folium.Map(location=[35.72, -82.60], zoom_start=6, tiles="openstreetmap")
 folium.TileLayer('cartodbpositron').add_to(map)
 
 # Add a FeatureGroup to the map
@@ -57,6 +56,3 @@ map
 map.add_child(fgc)
 map.add_child(folium.LayerControl())
 map.save("MapCX.html")
-
-# (BELOW IS THE LINK TO THE WEB MAP)
-file:///C:/Users/chrix/OneDrive/Desktop/DATA%20ANALYTICS/Completed%20Projects/Web%20Mapping%20with%20Python/MapCX.html
